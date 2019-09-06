@@ -16,7 +16,7 @@ from chips.chip_generator import chip_generator
 import math
 import copy_reg
 import types
-
+from cvtools import cv_load_image
 
 # Pickle dumping recipe for using classes with multi-processing map
 def _unpickle_method(func_name, obj, cls):
@@ -52,7 +52,8 @@ class im_worker(object):
         imp = data[0]
         flipped = data[2]
         pixel_means = self.cfg.network.PIXEL_MEANS
-        im = cv2.imread(imp, cv2.IMREAD_COLOR)
+        #im = cv2.imread(imp, cv2.IMREAD_COLOR)
+        im = cv_load_image(imp)
         # Flip the image
         if flipped:
             im = im[:, ::-1, :]

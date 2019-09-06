@@ -70,7 +70,8 @@ class coco(IMDB):
         super(coco, self).__init__('COCO', image_set, root_path, data_path, result_path)
         self.root_path = root_path
         self.data_path = data_path
-        self.coco = COCO(self._get_ann_file())
+        #self.coco = COCO(self._get_ann_file())
+        self.coco = COCO(self.data_path)
 
         # deal with class names
         cats = [cat['name'] for cat in self.coco.loadCats(self.coco.getCatIds())]
@@ -110,9 +111,11 @@ class coco(IMDB):
 
     def image_path_from_index(self, index):
         """ example: images / train2014 / COCO_train2014_000000119993.jpg """
-        filename = 'COCO_%s_%012d.jpg' % (self.data_name, index)
-        image_path = os.path.join(self.data_path, 'images', self.data_name, filename)
-        assert os.path.exists(image_path), 'Path does not exist: {}'.format(image_path)
+        #filename = 'COCO_%s_%012d.jpg' % (self.data_name, index)
+        #image_path = os.path.join(self.data_path, 'images', self.data_name, filename)
+        #assert os.path.exists(image_path), 'Path does not exist: {}'.format(image_path)
+        img = self.coco.loadImgs(index)[0]
+        image_path = img['file_name']
         return image_path
 
     def gt_roidb(self):
